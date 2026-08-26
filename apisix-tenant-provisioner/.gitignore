@@ -1,0 +1,15 @@
+# Python Virtual Environment
+.venv/
+
+# Python Cache & Compiled Files
+__pycache__/
+*.pyc
+
+# Local Environment Variables & Secrets
+.env
+
+# Local Audit Logs (Prevent pushing sensitive logs to repository)
+*.log
+
+# VS Code IDE Settings
+.vscode/

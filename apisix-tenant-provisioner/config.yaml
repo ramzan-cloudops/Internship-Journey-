@@ -1,0 +1,10 @@
+apisix:
+  admin_api_url: "http://localhost:9180/apisix/admin"
+  admin_key: "edd1c9f034335f136f87ad84b625c8f1"
+
+tenant:
+  base_domain: "yourcompany.com"
+  slug_regex: "^[a-z0-9-]+$"
+
+consul:
+  service_name_prefix: "tenant-service-"
