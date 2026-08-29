@@ -15,7 +15,7 @@ on:
         - 'apisix-tenant-provisioner/**'
 jobs: 
   trivy-security-scan:
-    runs-on:ubuntu-latest
+    runs-on: ubuntu-latest
     steps:
 # Step 1: Checkout the source code to the GitHub Actions runner
       - name: Checkout the code
@@ -28,13 +28,14 @@ jobs:
         with:
           format: 'json'
           output: 'trivy-report.json'
+          scan-ref: './apisix-tenant-provisioner' 
           scan-type: 'fs'
           severity: 'CRITICAL,HIGH,MEDIUM,LOW'
           exit-code: '1'
 # Step 3: Upload the JSON report as an artifact so it can be downloaded
         
       - name: Upload the trivy report as an artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
 
         if: always() # Ensures the report uploads even if the previous step fails
         with:
