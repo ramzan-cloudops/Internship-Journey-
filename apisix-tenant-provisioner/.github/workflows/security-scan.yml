@@ -38,7 +38,7 @@ jobs:
 
         if: always() # Ensures the report uploads even if the previous step fails
         with:
-          name: Security-scane0report
+          name: Security-scane0report   
           path: trivy-report.json
           
 
