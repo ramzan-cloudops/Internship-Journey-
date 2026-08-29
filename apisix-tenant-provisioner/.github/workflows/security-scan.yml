@@ -1,0 +1,46 @@
+name: Dependencies Security Scan 
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+        - 'apisix-tenant-provisioner/**'
+  
+  pull_request:
+      branches:
+        - main
+
+      paths:
+        - 'apisix-tenant-provisioner/**'
+jobs: 
+  trivy-security-scan:
+    runs-on:ubuntu-latest
+    steps:
+# Step 1: Checkout the source code to the GitHub Actions runner
+      - name: Checkout the code
+        uses: actions/checkout@v4
+      
+  # Step 2: Run Trivy scanner and generate a report in JSON format- name:
+      
+      - name: Run Trivy Scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          format: 'json'
+          output: 'trivy-report.json'
+          scan-type: 'fs'
+          severity: 'CRITICAL,HIGH,MEDIUM,LOW'
+          exit-code: '1'
+# Step 3: Upload the JSON report as an artifact so it can be downloaded
+        
+      - name: Upload the trivy report as an artifact
+        uses: actions/upload-artifact@v3
+
+        if: always() # Ensures the report uploads even if the previous step fails
+        with:
+          name: Security-scane0report
+          path: trivy-report.json
+          
+
+
+
