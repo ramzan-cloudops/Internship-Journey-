@@ -53,4 +53,30 @@ python provisioner.py --slug apple --dry-run
 ```bash
 python provisioner.py --slug apple
 ```
+## 🛡️ Code Quality & Security Analysis
 
+This project integrates **SonarQube Cloud** with **GitHub Actions** to enforce Continuous Inspection (SAST), ensuring code quality, security compliance, and maintainability across all deployments.
+
+### Key Highlights
+
+- **Automated Security Scanning**:
+
+Executes Static Application Security Testing (SAST) on every `push` and `pull_request` targeting the `main` branch.
+- **Quality Gate Enforcement**: 
+
+Automatically validates code against predefined SonarQube quality thresholds before code merging.
+- **DevSecOps Compliance**: 
+
+Ensures low cognitive complexity, zero blocker vulnerabilities, and strict code smell prevention inside the provisioner logic.
+
+### Configuration Details
+- **Properties File**:
+
+Configured via `sonar-project.properties` targeting the `apisix-tenant-provisioner` source directory.
+- **CI Workflow**: 
+
+Managed automatically within `.github/workflows/security-scan.yml`.
+
+> 📊 View full security metrics, code smells, and live analysis on the 
+
+**[SonarQube Cloud Dashboard](https://sonarcloud.io/summary/new_code?id=ramzan-cloudops_Internship-Journey-)**.
