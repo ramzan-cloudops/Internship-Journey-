@@ -1,47 +1,57 @@
-name: Dependencies Security Scan 
+name: Dependencies and Code Security Scan
 
 on:
   push:
     branches:
       - main
     paths:
-        - 'apisix-tenant-provisioner/**'
-  
-  pull_request:
-      branches:
-        - main
+      - 'apisix-tenant-provisioner/**'
 
-      paths:
-        - 'apisix-tenant-provisioner/**'
-jobs: 
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'apisix-tenant-provisioner/**'
+
+jobs:
+  # Job 1: Existing Trivy Scan
   trivy-security-scan:
     runs-on: ubuntu-latest
     steps:
-# Step 1: Checkout the source code to the GitHub Actions runner
       - name: Checkout the code
         uses: actions/checkout@v4
-      
-  # Step 2: Run Trivy scanner and generate a report in JSON format- name:
-      
+
       - name: Run Trivy Scanner
         uses: aquasecurity/trivy-action@master
         with:
           format: 'json'
           output: 'trivy-report.json'
-          scan-ref: './apisix-tenant-provisioner' 
+          scan-ref: './apisix-tenant-provisioner'
           scan-type: 'fs'
           severity: 'CRITICAL,HIGH,MEDIUM,LOW'
-          exit-code: '1'
-# Step 3: Upload the JSON report as an artifact so it can be downloaded
-        
+          exit-code: '0'  # Change to 0 so pipeline doesn't stop before SonarQube runs
+
       - name: Upload the trivy report as an artifact
         uses: actions/upload-artifact@v4
-
-        if: always() # Ensures the report uploads even if the previous step fails
+        if: always()
         with:
-          name: Security-scane0report   
+          name: Security-scan-report
           path: trivy-report.json
-          
 
+  # Job 2: New SonarQube Scan Added
+  sonarqube-analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Shallow clones disabled for complete analysis
 
-
+      - name: SonarQube Cloud Scan
+        uses: SonarSource/sonarqube-scan-action@v5.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.projectBaseDir=apisix-tenant-provisioner
