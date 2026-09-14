@@ -1,6 +1,7 @@
 PISIX Tenant Route Provisioner CLI
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ramzan-cloudops_Internship-Journey-&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=ramzan-cloudops_Internship-Journey-)
+
 A lightweight, automated Python CLI tool designed to provision idempotent routes dynamically in Apache APISIX for new SaaS tenants orchestrated via Nomad and registered inside HashiCorp Consul.
 
 ## Key Features
